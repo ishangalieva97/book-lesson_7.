@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Design. The Illustrator's Profession — Урок A2</title>
+<style>
+  :root{
+    --paper:#fbf6e9;
+    --paper-dark:#f3ecd8;
+    --ink:#2b2b2b;
+    --accent:#8a5a2b;
+    --accent-light:#c69a5f;
+    --line:#d8c9a8;
+    --ok:#2f7d32;
+    --ok-bg:#e3f3e4;
+    --bad:#b23b3b;
+    --bad-bg:#fbe6e6;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Georgia","Times New Roman",serif;
+    background:#e9e0c8;
+    color:var(--ink);
+    line-height:1.6;
+  }
+  .page{
+    max-width:1000px;
+    margin:30px auto;
+    background:var(--paper);
+    padding:50px 60px;
+    box-shadow:0 0 25px rgba(0,0,0,.25);
+    border:1px solid var(--line);
+    position:relative;
+  }
+  .page::before{
+    content:"";
+    position:absolute;
+    top:12px;left:12px;right:12px;bottom:12px;
+    border:1px dashed var(--line);
+    pointer-events:none;
+  }
+  header{
+    text-align:center;
+    border-bottom:3px double var(--accent);
+    padding-bottom:18px;
+    margin-bottom:30px;
+    position:relative;
+    z-index:1;
+  }
+  header .level{
+    display:inline-block;
+    background:var(--accent);
+    color:#fff;
+    padding:3px 14px;
+    border-radius:14px;
+    font-size:13px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    font-family:Arial, sans-serif;
+  }
+  header h1{
+    font-size:28px;
+    margin:14px 0 6px;
+    color:var(--accent);
+  }
+  header h2{
+    font-size:18px;
+    font-weight:normal;
+    font-style:italic;
+    margin:0;
+    color:#5a4a33;
+  }
+  section{
+    margin-bottom:34px;
+    position:relative;
+    z-index:1;
+  }
+  h3{
+    font-size:20px;
+    color:var(--accent);
+    border-left:6px solid var(--accent-light);
+    padding-left:12px;
+    margin-bottom:14px;
+  }
+  p, li{font-size:16px;}
+  .box{
+    background:var(--paper-dark);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:16px 20px;
+    margin:14px 0;
+  }
+  .box.info{border-left:6px solid var(--accent-light);}
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:14px 0;
+    font-size:15px;
+  }
+  th, td{
+    border:1px solid var(--line);
+    padding:8px 10px;
+    text-align:left;
+  }
+  th{
+    background:var(--accent);
+    color:#fff;
+    font-family:Arial, sans-serif;
+    font-size:14px;
+    letter-spacing:.5px;
+  }
+  tr:nth-child(even) td{background:#f7f1e0;}
+  .text-block{
+    background:#fffdf6;
+    border:1px solid var(--line);
+    border-left:6px solid var(--accent);
+    padding:18px 22px;
+    margin:16px 0;
+    font-style:italic;
+  }
+  .text-block strong{font-style:normal;}
+  .task{
+    margin:22px 0;
+    padding:16px 18px;
+    background:#fffdf6;
+    border:1px dashed var(--accent-light);
+    border-radius:6px;
+  }
+  .task .num{
+    display:inline-block;
+    background:var(--accent-light);
+    color:#fff;
+    width:26px;height:26px;
+    line-height:26px;
+    text-align:center;
+    border-radius:50%;
+    font-family:Arial, sans-serif;
+    font-size:14px;
+    margin-right:8px;
+  }
+  .task-title{font-weight:bold;color:var(--accent);}
+  .q{
+    margin:12px 0;
+    padding:8px 0;
+  }
+  .q .label{display:block; margin-bottom:6px; font-size:15px;}
+  .q .label b{color:var(--accent);}
+  input[type="text"]{
+    width:100%;
+    max-width:520px;
+    padding:8px 12px;
+    font-family:Georgia, serif;
+    font-size:15px;
+    border:1px solid var(--line);
+    border-radius:4px;
+    background:#fffef9;
+    transition:.2s;
+  }
+  input[type="text"]:focus{
+    outline:none;
+    border-color:var(--accent-light);
+    box-shadow:0 0 0 3px rgba(198,154,95,.25);
+  }
+  input.correct{background:var(--ok-bg); border-color:var(--ok); color:var(--ok); font-weight:bold;}
+  input.wrong{background:var(--bad-bg); border-color:var(--bad); color:var(--bad);}
+  .controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    justify-content:center;
+    margin:30px 0 10px;
+    position:sticky;
+    bottom:0;
+    background:linear-gradient(to top, var(--paper) 80%, transparent);
+    padding:16px 0;
+    z-index:5;
+  }
+  button{
+    font-family:Arial, sans-serif;
+    font-size:15px;
+    padding:11px 24px;
+    border-radius:6px;
+    border:2px solid var(--accent);
+    background:var(--accent);
+    color:#fff;
+    cursor:pointer;
+    letter-spacing:.5px;
+    transition:.2s;
+  }
+  button:hover{background:var(--accent-light); border-color:var(--accent-light);}
+  button.secondary{background:transparent; color:var(--accent);}
+  button.secondary:hover{background:var(--accent); color:#fff;}
+  #result{
+    text-align:center;
+    font-size:20px;
+    font-family:Arial, sans-serif;
+    padding:18px;
+    margin-top:10px;
+    border-radius:6px;
+    display:none;
+    font-weight:bold;
+  }
+  #result.show{display:block;}
+  #result.good{background:var(--ok-bg); color:var(--ok); border:2px solid var(--ok);}
+  #result.mid{background:#fff4d6; color:#8a6a1f; border:2px solid #d8b24a;}
+  #result.bad{background:var(--bad-bg); color:var(--bad); border:2px solid var(--bad);}
+  footer{
+    text-align:center;
+    margin-top:40px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+    font-size:13px;
+    color:#7a6a4f;
+    font-family:Arial, sans-serif;
+  }
+
+  /* ============ КАРТОЧКИ-СЛОВАРЬ С КАРТИНКАМИ ============ */
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));
+    gap:14px;
+    margin:16px 0;
+  }
+  .card{
+    background:#fffdf6;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px;
+    text-align:center;
+    transition:.2s;
+    box-shadow:0 2px 4px rgba(0,0,0,.05);
+  }
+  .card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 6px 14px rgba(0,0,0,.12);
+    border-color:var(--accent-light);
+  }
+  .card svg{
+    width:100%;
+    height:90px;
+    display:block;
+    margin-bottom:6px;
+  }
+  .card .en{
+    font-family:Arial, sans-serif;
+    font-weight:bold;
+    font-size:14px;
+    color:var(--accent);
+    display:block;
+    line-height:1.2;
+  }
+  .card .ru{
+    font-size:13px;
+    color:#5a4a33;
+    font-style:italic;
+    display:block;
+    margin-top:2px;
+  }
+
+  /* ============ ЗАДАНИЕ «ПОДПИШИ КАРТИНКУ» ============ */
+  .picture-tasks{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+    gap:16px;
+    margin:16px 0;
+  }
+  .ptask{
+    background:#fffdf6;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:12px;
+    text-align:center;
+  }
+  .ptask svg{
+    width:100%;
+    height:110px;
+    display:block;
+    margin-bottom:8px;
+  }
+  .ptask input{
+    max-width:100% !important;
+    text-align:center;
+  }
+  .ptask .num{
+    display:inline-block;
+    background:var(--accent-light);
+    color:#fff;
+    width:22px;height:22px;
+    line-height:22px;
+    text-align:center;
+    border-radius:50%;
+    font-family:Arial, sans-serif;
+    font-size:12px;
+    margin-right:6px;
+  }
+
+  @media (max-width:700px){
+    .page{padding:26px 18px; margin:10px;}
+    header h1{font-size:22px;}
+    input[type="text"]{max-width:100%;}
+    .cards{grid-template-columns:repeat(auto-fill, minmax(120px, 1fr));}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="level">Level A2</div>
+    <h1>Book Design. The Illustrator's Profession</h1>
+    <h2>Оформление книг. Профессия иллюстратор</h2>
+    <p style="margin-top:12px; font-size:14px; color:#7a6a4f;">
+      <b>Skill:</b> Translation with professional vocabulary &nbsp;•&nbsp;
+      <b>Time:</b> 60–80 min
+    </p>
+  </header>
+
+  <!-- ================= 1. GLOSSARY WITH PICTURES ================= -->
+  <section>
+    <h3>1. Picture Glossary — Словарь в картинках</h3>
+    <p>Посмотрите на картинки, прочитайте слово и его перевод. Постарайтесь запомнить.</p>
+
+    <div class="cards">
+
+      <!-- ILLUSTRATOR -->
+      <div class="card">
+        <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="50" cy="82" rx="34" ry="4" fill="#d8c9a8"/>
+          <circle cx="50" cy="30" r="14" fill="#f0c9a0" stroke="#8a5a2b" stroke-width="1.5"/>
+          <path d="M36 28 Q50 12 64 28" fill="#5a3a1e"/>
+          <circle cx="45" cy="30" r="1.6" fill="#2b2b2b"/>
+          <circle cx="55" cy="30" r="1.6" fill="#2b2b2b"/>
+          <path d="M46 37 Q50 40 54 37" stroke="#8a5a2b" stroke-width="1.2" fill="none"/>
+          <path d="M38 52 Q50 46 62 52 L66 78 L34 78 Z" fill="#c69a5f" stroke="#8a5a2b" stroke-width="1.5"/>
+          <line x1="62" y1="55" x2="78" y2="40" stroke="#8a5a2b" stroke-width="2"/>
+          <polygon points="78,40 84,34 82,42" fill="#b23b3b"/>
+        </svg>
+        <span class="en">illustrator</span>
+        <span class="ru">иллюстратор</span>
+      </div>
+
+      <!-- ILLUSTRATION -->
+      <div class="card">
+        <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+          <rect x="15" y="10" width="70" height="70" fill="#fffdf6" stroke="#8a5a2b" stroke-width="2"/>
+          <circle cx="40" cy="35" r="10" fill="#f6d365"/>
+          <path d="M15 65 L40 45 L55 60 L70 50 L85 65 L85 80 L15 80 Z" fill="#7fa86a"/>
+          <path d="M15 70 Q35 60 55 70 T85 70" stroke="#5a8a4a" stroke-width="1.5" fill="none"/>
+        </svg>
+        <span class="en">illustration</span>
+        <span class="ru">иллюстрация</span>
+      </div>
+
+      <!-- BOOK COVER -->
+      <div class="card">
+        <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="10" width="60" height="72" rx="3" fill="#b23b3b" stroke="#5a1a1a" stroke-width="2"/>
+          <rect x="30" y="22" width="40" height="6" fill="#fbf6e9" opacity=".9"/>
+          <rect x="30" y="34" width="30" height="4" fill="#fbf6e9" opacity=".7"/>
+          <circle cx="50" cy="58" r="12" fill="#f6d365" stroke="#5a1a1a" stroke-width="1.5"/>
+          <path d="M42 58 L58 58 M50 50 L50 66" stroke="#5a1a1a" stroke-width="1.5"/>
+        </svg>
+        <span class="en">book cover</span>
+        <span class="ru">обложка книги</span>
+      </div>
+
+      <!-- LAYOUT -->
+      <div class="card">
+        <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+          <rect x="12" y="10" width="76" height="70" fill="#fffdf6" stroke="#8a5a2b" stroke-width="2"/>
+          <line x1="50" y1="10" x2="50" y2="80" stroke="#d8c9a8" stroke-width="1" stroke-dasharray="3 3"/>
+          <rect x="18" y="18" width="26" height="8" fill="#c69a5f"/>
+          <rect x="18" y="30" width="26" height="4" fill="#d8c9a8"/>
+          <rect x="18" y="38" width="26" height="4" fill="#d8c9a8"/>
+          <rect x="18" y="50" width="26" height="22" fill="#f6d365"/>
+          <rect x="56" y="18" width="26" height="22" fill="#7fa86a"/>
+          <rect x="56" y="46" width="26" height="4" fill="#d8c9a8"/>
+          <rect x="56" y="54" width="26" height="4" fill="#d8c9a8"/>
+          <rect x="56" y="62" width="20" height="4" fill="#d8c9a8"/>
+        </svg>
+        <span class="en">layout</span>
+        <span class="ru">вёрстка, макет</span>
+      </div>
+
+      <!-- SPREAD -->
+      <div class="card">
+        <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 20 L50 15 L90 20 L90 78 L50 73 L10 78 Z" fill="#fffdf6" stroke="#8a5a2b" stroke-width="2"/>
+          <line x1="50" y1="15" x2="50" y2="73" stroke="#8a5a2b" stroke-width="1.5"/>
+          <rect x="18" y="28" width="24" height="4" fill="#d8c9a8"/>
+          <rect x="18" y="36" width="24" height="4" fill="#d8c9a8"/>
+          <circle cx="30" cy="56" r="8" fill="#f6d365"/>
+          <rect x="58" y="28" width="24" height="34" fill="#7fa86a" opacity=".7"/>
+        </svg>
+        <span class="en">spread</span>
+        <span class="ru">разворот</span>
+      </div>
+
+      <!-- SKETCH -->
+      <div class="card">
+        <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+          <rect x="12" y="10" width="76" height="70" fill="#fffdf6" stroke="#8a5a2b" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <path d="M25 65 Q35 30 50 45 T75 60" stroke="#8a5a2b" stroke-width="1.2" fill="none" stroke-dasharray="3 3"/>
+          <circle cx="50" cy="35" r="8" fill="none" stroke="#8a5a2b" stroke-width="1" stroke-dasharray="2 2"/>
+          <line x1="30" y1="70" x2="70" y2="70" stroke="#c69a5f" stroke-width="1"/>
+        </svg>
+        <span class="en">sketch</span>
+        <span class="ru">эскиз, набросок</span>
+      </div>
+
+      <!-- DRAFT -->
+      <div class="card">
+        <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+          <rect x="22" y="8" width="56" height="74" fill="#fffdf6" stroke="#8a5a2b" stroke-width="1.5"/>
+          <line x1="32" y1="22" x2="68" y2="22" stroke="#d8c9a8" stroke-width="2"/>
+          <line x1="32" y1="30" x2="68" y2="30" stroke="#d8c9a8" stroke-width="2"/>
+          <line x1="32" y1="38" x2="68" y2="38" stroke="#d8c9a8" stroke-width="2"/>
+          <line x1="32" y1="46" x2="55" y2="46" stroke="#d8c9a8" stroke-width="2"/>
+          <path d="M32 60 Q45 50 58 60" stroke="#b23b3b" stroke-width="1.5" fill="none"/>
+          <path d="M40 70 L58 60 L60 68 Z" fill="#b23b3b" opacity=".6"/>
+        </svg>
+        <span class="en">draft</span>
+        <span class="ru">черновик</span>
+      </div>
+
+      <!-- CHARACTER -->
+      <div class="card">
+        <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="50" cy="82" rx="26" ry="4" fill="#d8c9a8"/>
+          <circle cx="50" cy="28" r="16" fill="#f6d365" stroke="#8a5a2b" stroke-width="1.5"/>
+          <circle cx="44" cy="26" r="1.8" fill="#2b2b2b"/>
+          <circle cx="56" cy="26" r="1.8" fill="#2b2b2b"/>
+          <path d="M45 34 Q50 38 55 34" stroke="#8a5a2b" stroke-width="1.2" fill="none"/>
+          <path d="M32 50 Q50 42 68 50 L72 78 L28 78 Z" fill="#7fa86a" stroke="#5a8a4a" stroke-width="1.5"/>
+          <circle cx="36" cy="58" r="3" fill="#fff"/>
+          <circle cx="64" cy="58" r="3" fill="#fff"/>
+        </svg>
+        <span class="en">character</span>
+        <span class="ru">персонаж</span>
+      </div>
+
+      <!-- COLOUR PALETTE -->
+      <div class="card">
+        <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="50" cy="48" rx="34" ry="28" fill="#fbf6e9" stroke="#8a5a2b" stroke-width="2"/>
+          <circle cx="30" cy="38" r="7" fill="#b23b3b"/>
+          <circle cx="46" cy="30" r="7" fill="#f6d365"/>
+          <circle cx="62" cy="32" r="7" fill="#7fa86a"/>
+          <circle cx="72" cy="48" r="7" fill="#5a8ac6"/>
+          <circle cx="62" cy="62" r="7" fill="#8a5a2b"/>
+          <circle cx="44" cy="66" r="7" fill="#c69a5f"/>
+          <ellipse cx="40" cy="50" rx="8" ry="6" fill="#fffdf6"/>
+          <circle cx="28" cy="62" r="3" fill="#2b2b2b" opacity=".7"/>
+        </svg>
+        <span class="en">colour palette</span>
+        <span class="ru">цветовая палитра</span>
+      </div>
+
+      <!-- FONT / TYPEFACE -->
+      <div class="card">
+        <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="10" width="80" height="70" fill="#fffdf6" stroke="#8a5a2b" stroke-width="1.5"/>
+          <text x="50" y="46" font-family="Georgia,serif" font-size="28" fill="#8a5a2b" text-anchor="middle" font-weight="bold">Aa</text>
+          <text x="50" y="66" font-family="Arial,sans-serif" font-size="18" fill="#b23b3b" text-anchor="middle">Bb</text>
+        </svg>
+        <span class="en">font / typeface</span>
+        <span class="ru">шрифт</span>
+      </div>
+
+      <!-- DEADLINE -->
+      <div class="card">
+        <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="45" r="32" fill="#fffdf6" stroke="#8a5a2b" stroke-width="2.5"/>
+          <circle cx="50" cy="45" r="28" fill="none" stroke="#d8c9a8" stroke-width="1"/>
+          <line x1="50" y1="45" x2="50" y2="25" stroke="#2b2b2b" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="50" y1="45" x2="66" y2="52" stroke="#2b2b2b" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="50" cy="45" r="3" fill="#b23b3b"/>
+          <line x1="50" y1="15" x2="50" y2="19" stroke="#8a5a2b" stroke-width="2"/>
+          <line x1="50" y1="71" x2="50" y2="75" stroke="#8a5a2b" stroke-width="2"/>
+          <line x1="20" y1="45" x2="24" y2="45" stroke="#8a5a2b" stroke-width="2"/>
+          <line x1="76" y1="45" x2="80" y2="45" stroke="#8a5a2b" stroke-width="2"/>
+        </svg>
+        <span class="en">deadline</span>
+        <span class="ru">крайний срок</span>
+      </div>
+
+      <!-- PUBLISHER -->
+      <div class="card">
+        <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+          <rect x="14" y="20" width="72" height="58" fill="#fffdf6" stroke="#8a5a2b" stroke-width="2"/>
+          <path d="M10 20 L50 6 L90 20 Z" fill="#c69a5f" stroke="#8a5a2b" stroke-width="1.5"/>
+          <rect x="22" y="32" width="10" height="34" fill="#b23b3b"/>
+          <rect x="36" y="32" width="10" height="34" fill="#7fa86a"/>
+          <rect x="50" y="32" width="10" height="34" fill="#f6d365"/>
+          <rect x="64" y="32" width="10" height="34" fill="#5a8ac6"/>
+          <rect x="28" y="66" width="44" height="6" fill="#8a5a2b"/>
+        </svg>
+        <span class="en">publisher</span>
+        <span class="ru">издатель</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 2. WARM-UP ================= -->
+  <section>
+    <h3>2. Warm-up</h3>
+    <div class="task">
+      <p class="task-title">Task 2.1 — Разделите слова на две группы.</p>
+      <p>Слова: <i>illustrator, illustration, cover, author, sketch, publisher, drawing, designer</i></p>
+      <div class="q">
+        <label class="label"><b>People (человек):</b> через запятую</label>
+        <input type="text" id="w1" data-answer="illustrator, author, publisher, designer" placeholder="напишите ответ...">
+      </div>
+      <div class="q">
+        <label class="label"><b>Result of work (результат работы):</b> через запятую</label>
+        <input type="text" id="w2" data-answer="illustration, cover, sketch, drawing" placeholder="напишите ответ...">
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 3. LABEL THE PICTURE ================= -->
+  <section>
+    <h3>3. Label the Picture — Подпишите картинку</h3>
+    <div class="task">
+      <p class="task-title">Task 3.1 — Посмотрите на картинку и напишите английский термин.</p>
+      <div class="picture-tasks">
+
+        <div class="ptask">
+          <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="10" width="60" height="72" rx="3" fill="#b23b3b" stroke="#5a1a1a" stroke-width="2"/>
+            <rect x="30" y="22" width="40" height="6" fill="#fbf6e9" opacity=".9"/>
+            <circle cx="50" cy="58" r="12" fill="#f6d365" stroke="#5a1a1a" stroke-width="1.5"/>
+          </svg>
+          <span class="num">1</span>
+          <input type="text" id="p1" data-answer="book cover|cover" placeholder="термин...">
+        </div>
+
+        <div class="ptask">
+          <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="50" cy="48" rx="34" ry="28" fill="#fbf6e9" stroke="#8a5a2b" stroke-width="2"/>
+            <circle cx="30" cy="38" r="7" fill="#b23b3b"/>
+            <circle cx="46" cy="30" r="7" fill="#f6d365"/>
+            <circle cx="62" cy="32" r="7" fill="#7fa86a"/>
+            <circle cx="72" cy="48" r="7" fill="#5a8ac6"/>
+            <circle cx="62" cy="62" r="7" fill="#8a5a2b"/>
+            <circle cx="44" cy="66" r="7" fill="#c69a5f"/>
+          </svg>
+          <span class="num">2</span>
+          <input type="text" id="p2" data-answer="colour palette|color palette|palette" placeholder="термин...">
+        </div>
+
+        <div class="ptask">
+          <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="45" r="32" fill="#fffdf6" stroke="#8a5a2b" stroke-width="2.5"/>
+            <line x1="50" y1="45" x2="50" y2="25" stroke="#2b2b2b" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="45" x2="66" y2="52" stroke="#2b2b2b" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="50" cy="45" r="3" fill="#b23b3b"/>
+          </svg>
+          <span class="num">3</span>
+          <input type="text" id="p3" data-answer="deadline" placeholder="термин...">
+        </div>
+
+        <div class="ptask">
+          <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 20 L50 15 L90 20 L90 78 L50 73 L10 78 Z" fill="#fffdf6" stroke="#8a5a2b" stroke-width="2"/>
+            <line x1="50" y1="15" x2="50" y2="73" stroke="#8a5a2b" stroke-width="1.5"/>
+            <rect x="18" y="28" width="24" height="4" fill="#d8c9a8"/>
+            <rect x="58" y="28" width="24" height="34" fill="#7fa86a" opacity=".7"/>
+          </svg>
+          <span class="num">4</span>
+          <input type="text" id="p4" data-answer="spread" placeholder="термин...">
+        </div>
+
+        <div class="ptask">
+          <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+            <rect x="12" y="10" width="76" height="70" fill="#fffdf6" stroke="#8a5a2b" stroke-width="2"/>
+            <line x1="50" y1="10" x2="50" y2="80" stroke="#d8c9a8" stroke-width="1" stroke-dasharray="3 3"/>
+            <rect x="18" y="18" width="26" height="8" fill="#c69a5f"/>
+            <rect x="18" y="50" width="26" height="22" fill="#f6d365"/>
+            <rect x="56" y="18" width="26" height="22" fill="#7fa86a"/>
+          </svg>
+          <span class="num">5</span>
+          <input type="text" id="p5" data-answer="layout" placeholder="термин...">
+        </div>
+
+        <div class="ptask">
+          <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="50" cy="82" rx="26" ry="4" fill="#d8c9a8"/>
+            <circle cx="50" cy="28" r="16" fill="#f6d365" stroke="#8a5a2b" stroke-width="1.5"/>
+            <circle cx="44" cy="26" r="1.8" fill="#2b2b2b"/>
+            <circle cx="56" cy="26" r="1.8" fill="#2b2b2b"/>
+            <path d="M32 50 Q50 42 68 50 L72 78 L28 78 Z" fill="#7fa86a" stroke="#5a8a4a" stroke-width="1.5"/>
+          </svg>
+          <span class="num">6</span>
+          <input type="text" id="p6" data-answer="character" placeholder="термин...">
+        </div>
+
+        <div class="ptask">
+          <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="80" height="70" fill="#fffdf6" stroke="#8a5a2b" stroke-width="1.5"/>
+            <text x="50" y="46" font-family="Georgia,serif" font-size="28" fill="#8a5a2b" text-anchor="middle" font-weight="bold">Aa</text>
+            <text x="50" y="66" font-family="Arial,sans-serif" font-size="18" fill="#b23b3b" text-anchor="middle">Bb</text>
+          </svg>
+          <span class="num">7</span>
+          <input type="text" id="p7" data-answer="font|typeface" placeholder="термин...">
+        </div>
+
+        <div class="ptask">
+          <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+            <rect x="12" y="10" width="76" height="70" fill="#fffdf6" stroke="#8a5a2b" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <path d="M25 65 Q35 30 50 45 T75 60" stroke="#8a5a2b" stroke-width="1.2" fill="none" stroke-dasharray="3 3"/>
+            <circle cx="50" cy="35" r="8" fill="none" stroke="#8a5a2b" stroke-width="1" stroke-dasharray="2 2"/>
+          </svg>
+          <span class="num">8</span>
+          <input type="text" id="p8" data-answer="sketch" placeholder="термин...">
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 4. TEXT 1 ================= -->
+  <section>
+    <h3>4. Text 1 (English → Russian)</h3>
+    <div class="text-block">
+      <strong>Text 1. The Work of an Illustrator</strong><br><br>
+      An illustrator is an artist who draws pictures for books, magazines and websites. Illustrators often work with authors and publishers. They make sketches first, then they create the final illustration.<br><br>
+      For a children's book, the illustrator designs the cover and the layout of every page. They also choose the colour palette and sometimes the font for the title.<br><br>
+      The work has a deadline. The client (publisher or author) checks the draft and asks for changes. Then the illustrator edits the drawing and sends the final version.
+    </div>
+
+    <div class="task">
+      <p class="task-title">Task 4.1 — Ответьте на вопросы по тексту (на английском).</p>
+      <div class="q">
+        <label class="label"><span class="num">1</span>Who does an illustrator work with?</label>
+        <input type="text" id="t1q1" data-answer="authors and publishers" placeholder="напишите ответ...">
+      </div>
+      <div class="q">
+        <label class="label"><span class="num">2</span>What does the illustrator design for a children's book?</label>
+        <input type="text" id="t1q2" data-answer="the cover and the layout of every page" placeholder="напишите ответ...">
+      </div>
+      <div class="q">
+        <label class="label"><span class="num">3</span>What does the client check?</label>
+        <input type="text" id="t1q3" data-answer="the draft" placeholder="напишите ответ...">
+      </div>
+    </div>
+
+    <div class="task">
+      <p class="task-title">Task 4.2 — Переведите на русский (ключевые фразы).</p>
+      <div class="q">
+        <label class="label">1) <i>final illustration</i></label>
+        <input type="text" id="t1p1" data-answer="финальная иллюстрация|итоговая иллюстрация" placeholder="перевод...">
+      </div>
+      <div class="q">
+        <label class="label">2) <i>colour palette</i></label>
+        <input type="text" id="t1p2" data-answer="цветовая палитра|палитра цветов" placeholder="перевод...">
+      </div>
+      <div class="q">
+        <label class="label">3) <i>the layout of every page</i></label>
+        <input type="text" id="t1p3" data-answer="вёрстка каждой страницы|макет каждой страницы" placeholder="перевод...">
+      </div>
+      <div class="q">
+        <label class="label">4) <i>the final version</i></label>
+        <input type="text" id="t1p4" data-answer="финальная версия|итоговая версия|окончательная версия" placeholder="перевод...">
+      </div>
+      <div class="q">
+        <label class="label">5) <i>the client checks the draft</i></label>
+        <input type="text" id="t1p5" data-answer="заказчик проверяет черновик|клиент проверяет черновик" placeholder="перевод...">
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 5. TEXT 2 ================= -->
+  <section>
+    <h3>5. Text 2 (Russian → English)</h3>
+    <div class="text-block">
+      <strong>Текст 2. Оформление книги</strong><br><br>
+      Оформление книги — это важная работа. Дизайнер создаёт обложку, вёрстку и развороты. Иллюстратор рисует персонажей и делает эскизы.<br><br>
+      Издатель и автор выбирают цветовую палитру и шрифт. Хорошая обложка привлекает читателей. Детские книги часто имеют яркие иллюстрации.<br><br>
+      Работа над книгой занимает много времени. У каждого проекта есть крайний срок.
+    </div>
+
+    <div class="task">
+      <p class="task-title">Task 5.1 — Переведите предложения на английский.</p>
+      <div class="q">
+        <label class="label">1) Дизайнер создаёт обложку, вёрстку и развороты.</label>
+        <input type="text" id="t2p1" data-answer="a designer creates the cover, the layout and the spreads|the designer creates the cover, the layout and the spreads" placeholder="перевод...">
+      </div>
+      <div class="q">
+        <label class="label">2) Иллюстратор рисует персонажей и делает эскизы.</label>
+        <input type="text" id="t2p2" data-answer="an illustrator draws the characters and makes sketches|the illustrator draws the characters and makes sketches" placeholder="перевод...">
+      </div>
+      <div class="q">
+        <label class="label">3) Издатель и автор выбирают цветовую палитру и шрифт.</label>
+        <input type="text" id="t2p3" data-answer="the publisher and the author choose the colour palette and the font|the publisher and the author choose the color palette and the font" placeholder="перевод...">
+      </div>
+      <div class="q">
+        <label class="label">4) Хорошая обложка привлекает читателей.</label>
+        <input type="text" id="t2p4" data-answer="a good cover attracts readers|a good cover attracts the readers" placeholder="перевод...">
+      </div>
+      <div class="q">
+        <label class="label">5) У каждого проекта есть крайний срок.</label>
+        <input type="text" id="t2p5" data-answer="every project has a deadline" placeholder="перевод...">
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 6. TERMS ================= -->
+  <section>
+    <h3>6. Translation of Terms</h3>
+
+    <div class="task">
+      <p class="task-title">Task 6A — Переведите на английский.</p>
+      <div class="q"><label class="label">1) обложка книги</label>
+        <input type="text" id="t6a1" data-answer="book cover" placeholder="..."></div>
+      <div class="q"><label class="label">2) цветовая палитра</label>
+        <input type="text" id="t6a2" data-answer="colour palette|color palette" placeholder="..."></div>
+      <div class="q"><label class="label">3) крайний срок</label>
+        <input type="text" id="t6a3" data-answer="deadline" placeholder="..."></div>
+      <div class="q"><label class="label">4) детская книга</label>
+        <input type="text" id="t6a4" data-answer="children's book|childrens book" placeholder="..."></div>
+      <div class="q"><label class="label">5) вёрстка</label>
+        <input type="text" id="t6a5" data-answer="layout" placeholder="..."></div>
+      <div class="q"><label class="label">6) персонаж</label>
+        <input type="text" id="t6a6" data-answer="character" placeholder="..."></div>
+      <div class="q"><label class="label">7) эскиз</label>
+        <input type="text" id="t6a7" data-answer="sketch" placeholder="..."></div>
+      <div class="q"><label class="label">8) издатель</label>
+        <input type="text" id="t6a8" data-answer="publisher" placeholder="..."></div>
+    </div>
+
+    <div class="task">
+      <p class="task-title">Task 6B — Переведите на русский.</p>
+      <div class="q"><label class="label">1) to illustrate</label>
+        <input type="text" id="t6b1" data-answer="иллюстрировать" placeholder="..."></div>
+      <div class="q"><label class="label">2) spread</label>
+        <input type="text" id="t6b2" data-answer="разворот" placeholder="..."></div>
+      <div class="q"><label class="label">3) typeface</label>
+        <input type="text" id="t6b3" data-answer="шрифт" placeholder="..."></div>
+      <div class="q"><label class="label">4) draft</label>
+        <input type="text" id="t6b4" data-answer="черновик" placeholder="..."></div>
+      <div class="q"><label class="label">5) client</label>
+        <input type="text" id="t6b5" data-answer="заказчик|клиент" placeholder="..."></div>
+    </div>
+  </section>
+
+  <!-- ================= 7. TIPS ================= -->
+  <section>
+    <h3>7. Translation Tips</h3>
+    <div class="box info">
+      <p><b>Правило:</b> при переводе терминов важнее <b>смысл в профессии</b>, а не буквальное значение слова.</p>
+      <table>
+        <thead><tr><th>Нельзя дословно</th><th>Правильный перевод</th></tr></thead>
+        <tbody>
+          <tr><td>to make a sketch</td><td>рисовать эскиз</td></tr>
+          <tr><td>colour palette</td><td>цветовая палитра</td></tr>
+          <tr><td>children's book</td><td>детская книга</td></tr>
+          <tr><td>deadline</td><td>крайний срок / дедлайн</td></tr>
+          <tr><td>layout</td><td>вёрстка, макет</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= 8. CREATIVE ================= -->
+  <section>
+    <h3>8. Creative Task</h3>
+    <div class="task">
+      <p class="task-title">Task 8.1 — Опишите свою работу как иллюстратор (5–7 предложений на английском).</p>
+      <p style="font-size:14px; color:#7a6a4f;">План: My job is… / I draw… / I work with… / First, I make… then… / I choose… / The deadline is…</p>
+      <textarea id="creative" rows="6" style="width:100%; padding:10px; font-family:Georgia,serif; font-size:15px; border:1px solid var(--line); border-radius:4px; background:#fffef9;" placeholder="Write your text here..."></textarea>
+      <p style="font-size:13px; color:#7a6a4f; margin-top:6px;">Это творческое задание — проверяется учителем.</p>
+    </div>
+  </section>
+
+  <!-- ================= 9. REFLECTION ================= -->
+  <section>
+    <h3>9. Reflection</h3>
+    <div class="box">
+      <p>1. Какие 5 терминов вы запомнили?</p>
+      <p>2. Что было труднее: переводить с английского или на английский?</p>
+      <p>3. Почему важно знать профессиональную лексику?</p>
+    </div>
+  </section>
+
+  <!-- ================= CONTROLS ================= -->
+  <div class="controls">
+    <button onclick="checkAnswers()">✔ Проверить</button>
+    <button class="secondary" onclick="showScore()">📊 Показать результат</button>
+    <button class="secondary" onclick="resetAll()">↺ Сбросить</button>
+  </div>
+
+  <div id="result"></div>
+
+  <footer>
+    Book Design. The Illustrator's Profession · Level A2 · Translation Practice
+  </footer>
+
+</div>
+
+<script>
+/* ============================================================
+   ПРОВЕРКА ОТВЕТОВ
+   ============================================================ */
+
+function normalize(str){
+  return str
+    .toLowerCase()
+    .replace(/[’‘`´]/g, "'")
+    .replace(/[.,!?;:—–-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function isCorrect(userValue, correctValue){
+  const user = normalize(userValue);
+  if(!user) return false;
+  const variants = correctValue.split('|').map(v => normalize(v));
+  return variants.includes(user);
+}
+
+function checkAnswers(){
+  const inputs = document.querySelectorAll('input[type="text"][data-answer]');
+  let total = 0, right = 0;
+
+  inputs.forEach(inp => {
+    const val = inp.value.trim();
+    if(val === ''){ inp.classList.remove('correct','wrong'); return; }
+    total++;
+    if(isCorrect(val, inp.dataset.answer)){
+      inp.classList.remove('wrong');
+      inp.classList.add('correct');
+      right++;
+    } else {
+      inp.classList.remove('correct');
+      inp.classList.add('wrong');
+    }
+  });
+
+  const res = document.getElementById('result');
+  res.className = 'show ' + (right/total >= 0.8 ? 'good' : right/total >= 0.5 ? 'mid' : 'bad');
+  res.textContent = `Правильно: ${right} из ${total} (${total ? Math.round(right/total*100) : 0}%)`;
+}
+
+function showScore(){
+  const inputs = document.querySelectorAll('input[type="text"][data-answer]');
+  let total = 0, right = 0, filled = 0;
+  inputs.forEach(inp => {
+    const val = inp.value.trim();
+    if(val !== '') filled++;
+    total++;
+    if(isCorrect(val, inp.dataset.answer)) right++;
+  });
+  const res = document.getElementById('result');
+  res.className = 'show ' + (right/total >= 0.8 ? 'good' : right/total >= 0.5 ? 'mid' : 'bad');
+  res.textContent = `Заполнено: ${filled} из ${total} · Правильно: ${right} (${Math.round(right/total*100)}%)`;
+}
+
+function resetAll(){
+  document.querySelectorAll('input[type="text"]').forEach(inp => {
+    inp.value = '';
+    inp.classList.remove('correct','wrong');
+  });
+  document.getElementById('creative').value = '';
+  const res = document.getElementById('result');
+  res.className = '';
+  res.textContent = '';
+}
+
+document.querySelectorAll('input[type="text"]').forEach(inp => {
+  inp.addEventListener('keydown', e => {
+    if(e.key === 'Enter'){ e.preventDefault(); inp.blur(); }
+  });
+});
+</script>
+</body>
+</html>
